@@ -54,12 +54,12 @@
         .bo-badge{background:var(--green);color:#000;box-shadow:0 0 5px rgba(14,203,129,.3)}
         .d1-badge{background:var(--pink);color:#000}
         .sq-badge{background:var(--blue);color:#fff;box-shadow:0 0 5px rgba(61,126,255,.5)}
-        .wb-badge{background:var(--blue);color:#fff;font-size:8px;padding:1px 4px;border-radius:2px;margin-left:5px;vertical-align:middle;font-weight:900;box-shadow:0 0 6px rgba(61,126,255,.5)}
+        .wb-badge{background:var(--blue);color:#ffffff;font-size:8px;padding:1px 4px;border-radius:2px;margin-left:5px;vertical-align:middle;font-weight:900;box-shadow:0 0 6px rgba(61,126,255,.5)}
         .golden-zone{background:linear-gradient(90deg,rgba(252,213,53,.12) 0%,transparent 100%)!important}
         .col-rank{width:25px;text-align:left;padding-left:5px}
-        .col-sym{width:140px;text-align:left;position:sticky;left:0;background:var(--card);z-index:5;border-right:1px solid var(--border);color:#fff;font-weight:bold;cursor:pointer;transition:background .15s}
+        .col-sym{width:130px;text-align:left;position:sticky;left:0;background:var(--card);z-index:5;border-right:1px solid var(--border);color:#fff;font-weight:bold;cursor:pointer;transition:background .15s}
         .col-sym:hover{background:#252830}
-        .col-pct{width:85px}
+        .col-pct{width:75px}
         .col-action{width:28px}
         .watchlist-panel .wl-sym{width:100px;text-align:left;position:sticky;left:0;background:var(--card);z-index:5;border-right:1px solid var(--border);color:#fff;font-weight:bold;cursor:pointer;transition:background .15s}
         .watchlist-panel .wl-sym:hover{background:#252830}
@@ -190,7 +190,7 @@
     <div class="table-container" id="screener-container">
         <div class="table-title" style="color:var(--green)">LIVE SCREENER <span style="font-size:9px;color:var(--dim);font-weight:500;margin-left:8px">Click symbol for chart · + to watch</span></div>
         <div class="scroll-area"><table><thead><tr>
-            <th class="col-rank">#</th><th class="col-sym">Symbol</th><th class="col-pct">15M%</th><th class="col-action"></th>
+            <th class="col-rank">#</th><th class="col-sym">Symbol</th><th class="col-pct">15M%</th><th class="col-pct">24H%</th><th class="col-action"></th>
         </tr></thead><tbody id="gainers-body"></tbody></table></div>
     </div>
     <div class="table-container watchlist-panel" id="watchlist-container">
@@ -540,11 +540,12 @@ function render(){
         var iw = watchlist.has(p.symbol);
         var tr = document.createElement('tr');
         if(bd.isGolden) tr.className = 'golden-zone';
-        // Render ONLY: Rank, Symbol (+ WB Badge), 15M%, Watch Button
+        // Render: Rank, Symbol (+ WB Label if true), 15M%, 24H%, Watch Button
         tr.innerHTML = 
             '<td class="col-rank">'+(i+1)+'</td>'+
             '<td class="col-sym" onclick="openChart(\''+p.symbol+'\')">'+p.symbol+(p.wb15m?'<span class="wb-badge">WB</span>':'')+bd.badges+'</td>'+
             '<td class="col-pct '+(p['15m']>=0?'green':'red')+'">'+(p['15m']||0).toFixed(2)+'%</td>'+
+            '<td class="col-pct '+(p['24h']>=0?'green':'red')+'">'+(p['24h']||0).toFixed(2)+'%</td>'+
             '<td class="col-action"><button class="btn-add" onclick="event.stopPropagation();toggleWatch(\''+p.symbol+'\')" style="'+(iw?'color:var(--accent);border-color:var(--accent);':'')+'">'+(iw?'&#9733;':'+')+'</button></td>';
         frag.appendChild(tr);
     }
@@ -593,4 +594,4 @@ switchView('screener');
 window.addEventListener('beforeunload', function(){ if(renderThrottleTimer) clearTimeout(renderThrottleTimer); if(cacheSaveTimer) { clearTimeout(cacheSaveTimer); _doSaveCache(); } });
 </script>
 </body>
-          </html>
+</html>
