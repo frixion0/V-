@@ -161,8 +161,8 @@
         .ai-send:hover:not(:disabled){box-shadow:0 0 12px rgba(252,213,53,.4)}
         .ai-send:disabled{opacity:.5;cursor:not-allowed}
         
-        /* NEW: Settings Panel Styles */
-        .settings-panel{position:absolute;top:0;left:0;width:320px;max-width:90vw;height:100%;background:#13161c;border-right:1px solid var(--border);z-index:100;transform:translateX(-100%);transition:transform .25s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow:hidden;touch-action:auto}
+        /* NEW: Global Settings Panel Styles (Fixed Position) */
+        .settings-panel{position:fixed;top:0;left:0;width:320px;max-width:90vw;height:100%;background:#13161c;border-right:1px solid var(--border);z-index:10000;transform:translateX(-100%);transition:transform .25s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow:hidden;touch-action:auto;box-shadow:4px 0 24px rgba(0,0,0,.5)}
         .settings-panel.open{transform:translateX(0)}
         .settings-panel-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid var(--border);flex-shrink:0}
         .settings-panel-head span{font-weight:900;font-size:11px;color:var(--accent);letter-spacing:.5px}
@@ -192,6 +192,8 @@
         <button class="search-clear-btn" id="searchClearBtn" onclick="clearSearch()" title="Clear">&#10005;</button>
     </div>
     <div class="size-control"><span>A-</span><input type="range" min="8" max="18" value="13" id="sizeSlider" oninput="updateSize(this.value)"><span>A+</span></div>
+    <!-- NEW: Visible Settings Button -->
+    <button class="view-btn" style="padding:6px 10px;" onclick="toggleSettings()" title="Configure UI Layout">⚙️ SETTINGS</button>
     <div class="status-bar"><div id="scan-status">Initializing...</div><div id="net-status"></div></div>
 </div>
 <div class="tabs-wrapper">
@@ -220,6 +222,27 @@
         <div class="wl-empty" id="wl-empty"><span>+</span>Click + on any symbol to start tracking</div></div>
     </div>
 </div>
+
+<!-- NEW: Global Settings Panel (Moved out of Chart Overlay) -->
+<div class="settings-panel" id="settingsPanel">
+    <div class="settings-panel-head"><span>&#9881; UI CONFIGURATION</span><button class="settings-panel-close" onclick="toggleSettings()">&#10005;</button></div>
+    <div class="settings-body" id="settingsBody">
+        <div class="settings-section">
+            <div class="settings-section-title">Navigation Buttons Order</div>
+            <div id="btnOrderList"></div>
+        </div>
+        <div class="settings-section">
+            <div class="settings-section-title">Timeframe Tabs Order</div>
+            <div id="tfOrderList"></div>
+        </div>
+        <div class="settings-section">
+            <div class="settings-section-title">Screener Columns Order</div>
+            <div id="colOrderList"></div>
+        </div>
+    </div>
+    <button class="reset-config-btn" onclick="resetUIConfig()">RESET DEFAULTS</button>
+</div>
+
 <div class="chart-overlay" id="chartOverlay">
     <div class="chart-topbar">
         <div class="chart-tb-left">
@@ -247,27 +270,6 @@
     </div>
     <div class="chart-body" id="chartBody">
         <canvas id="chartCanvas"></canvas>
-        
-        <!-- NEW: Settings Panel -->
-        <div class="settings-panel" id="settingsPanel">
-            <div class="settings-panel-head"><span>&#9881; UI CONFIGURATION</span><button class="settings-panel-close" onclick="toggleSettings()">&#10005;</button></div>
-            <div class="settings-body" id="settingsBody">
-                <div class="settings-section">
-                    <div class="settings-section-title">Navigation Buttons Order</div>
-                    <div id="btnOrderList"></div>
-                </div>
-                <div class="settings-section">
-                    <div class="settings-section-title">Timeframe Tabs Order</div>
-                    <div id="tfOrderList"></div>
-                </div>
-                <div class="settings-section">
-                    <div class="settings-section-title">Screener Columns Order</div>
-                    <div id="colOrderList"></div>
-                </div>
-            </div>
-            <button class="reset-config-btn" onclick="resetUIConfig()">RESET DEFAULTS</button>
-        </div>
-
         <div class="ai-panel" id="aiPanel">
             <div class="ai-panel-head"><span>&#129302; AI CHAT</span><button class="ai-panel-close" onclick="toggleAiPanel()">&#10005;</button></div>
             <div class="ai-chat-body" id="aiChatBody"></div>
